@@ -10,9 +10,15 @@ $(dom).drag();
 
 ## 使元素可以改变大小和方向
 
+固定比例的缩放
 
 ```Javascript
-$(dom).Resize();
+$(dom).Resize(true,function(){});
+```
+自由缩放
+
+```Javascript
+$(dom).Resize(false,function(){});
 ```
 
 ## 获取旋转角度
