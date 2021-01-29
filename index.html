@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>drag</title>
+    <style>
+        .stage {
+            height: 405px;
+            width: 720px;
+            border: dashed 1px gray;
+            margin: 0 auto;
+            color: #777;
+            position: relative;
+            overflow: hidden;
+        }
+        .stage .item {
+            width: 250px;
+            height: 141px;
+            line-height: 28px;
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            cursor: move;
+            -webkit-user-select:none;
+            transform: rotate(0deg);
+            transform-origin: center center;
+            background-size: cover;
+            background: #f0f;
+        }
+        .stage .item .top{
+            background: #fff;
+            z-index: 10;
+            border-radius: 4px;
+            width: 16px;
+            height: 4px;
+            border: 2px solid #f00;
+            position: absolute;
+            top:0;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            cursor: n-resize;
+            display: none;
+        }
+        .stage .item .topright{
+            background: #fff;
+            z-index: 10;
+            width: 4px;
+            height: 4px;
+            border: 2px solid #f00;
+            right: 0;
+            top: 0;
+            position: absolute;
+            transform: translate(50%,-50%);
+            border-radius: 50%;
+            cursor: ne-resize;
+            display: none;
+        }
+        .stage .item .right{
+            background: #fff;
+            z-index: 10;
+            border-radius: 4px;
+            width: 4px;
+            height: 16px;
+            border: 2px solid #f00;
+            right: 0;
+            top: 50%;
+            position: absolute;
+            transform: translate(50%,-50%);
+            cursor: e-resize;
+            display: none;
+        }
+        .stage .item .bottomright{
+            background: #fff;
+            z-index: 10;
+            width: 4px;
+            height: 4px;
+            border: 2px solid #f00;
+            right: 0;
+            bottom: 0;
+            position: absolute;
+            transform: translate(50%,50%);
+            border-radius: 50%;
+            cursor: se-resize;
+            display: none;
+        }
+        .stage .item .bottom{
+            background: #fff;
+            z-index: 10;
+            border-radius: 4px;
+            width: 16px;
+            height: 4px;
+            border: 2px solid #f00;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%,50%);
+            cursor: s-resize;
+            display: none;
+        }
+        .stage .item .bottomleft{
+            background: #fff;
+            z-index: 10;
+            width: 4px;
+            height: 4px;
+            border: 2px solid #f00;
+            left: 0;
+            bottom: 0;
+            position: absolute;
+            transform: translate(-50%,50%);
+            border-radius: 50%;
+            cursor: sw-resize;
+            display: none;
+        }
+        .stage .item .left{
+            background: #fff;
+            z-index: 10;
+            border-radius: 4px;
+            width: 4px;
+            height: 16px;
+            border: 2px solid #f00;
+            left: 0;
+            top: 50%;
+            position: absolute;
+            transform: translate(-50%,-50%);
+            cursor: w-resize;
+            display: none;
+        }
+        .stage .item .topleft{
+            background: #fff;
+            z-index: 10;
+            width: 4px;
+            height: 4px;
+            border: 2px solid #f00;
+            left: 0;
+            top: 0;
+            position: absolute;
+            transform: translate(-50%,-50%);
+            border-radius: 50%;
+            cursor: nw-resize;
+            display: none;
+        }
+        .stage .item .rotate{
+            z-index: 10;
+            bottom: -28px;
+            left: 50%;
+            transform: translate(-50%,0);
+            cursor: pointer;
+            position: absolute;
+            background: url(img/rotate.png) no-repeat;
+            background-size: contain;
+            width: 24px;
+            height: 24px;
+            text-indent: -999em;
+            overflow: hidden;
+            display: none;
+        }
+        .stage .item .topborder{
+            top: 0;
+            left: 0;
+            border-top: 1px solid #0078b1;
+            width: 100%;
+            height: 0;
+            line-height: 0;
+            position: absolute;
+            display: none;
+        }
+        .stage .item .rightborder{
+            top: 0;
+            right: 0;
+            border-left: 1px solid #0078b1;
+            width: 0;
+            height: 100%;
+            line-height: 0;
+            position: absolute;
+            display: none;
+        }
+        .stage .item .bottomborder{
+            bottom: 0;
+            left: 0;
+            border-top: 1px solid #0078b1;
+            height: 0;
+            width: 100%;
+            line-height: 0;
+            position: absolute;
+            display: none;
+        }
+        .stage .item .leftborder{
+            top: 0;
+            left: 0;
+            border-left: 1px solid #0078b1;
+            height: 100%;
+            width: 0;
+            line-height: 0;
+            position: absolute;
+            display: none;
+        }
+        .stage .item.mousedown .top{
+            display: block;
+        }
+        .stage .item.mousedown .topright{
+            display: block;
+        }
+        .stage .item.mousedown .right{
+            display: block;
+        }
+        .stage .item.mousedown .bottomright{
+            display: block;
+        }
+        .stage .item.mousedown .bottom{
+            display: block;
+        }
+        .stage .item.mousedown .bottomleft{
+            display: block;
+        }
+        .stage .item.mousedown .left{
+            display: block;
+        }
+        .stage .item.mousedown .topleft{
+            display: block;
+        }
+        .stage .item.mousedown .rotate{
+            display: block;
+        }
+        .stage .item.mousedown .topborder{
+            display: block;
+        }
+        .stage .item.mousedown .rightborder{
+            display: block;
+        }
+        .stage .item.mousedown .bottomborder{
+            display: block;
+        }
+        .stage .item.mousedown .leftborder{
+            display: block;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="stage">
+        <div class="item"></div>
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/drag.js"></script>
+<script>
+    $(function(){
+        $(".stage .item").each(function(){
+            $(this).Drag();
+            $(this).Resize();
+        });
+    })
+</script>
+</html>
