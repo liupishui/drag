@@ -27,3 +27,4 @@ $(dom).Resize(false,function(){});
 var $dom = $(dom).Resize();
 console.log($dom.getRotateAngle);
 ```
+[demo](https://liupishui.github.io/drag/)
